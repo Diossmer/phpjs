@@ -17,7 +17,7 @@ export default function faceRecognition() {
                                     deviceId:device.deviceId
                                 }},
                                 stream => video.srcObject = stream,
-                                // error => console.error(error)
+                                error => console.error(error)
                             )
                         }
                     }
@@ -49,7 +49,7 @@ export default function faceRecognition() {
                     `${gender} (${parseInt(genderProbability*100,10)})`,
                 ],detentions.detentions.box.topRight).draw(canvas)
             }) */
-        }, 3000);
+        }, 1000);
     })
 }
 // https://www.youtube.com/watch?v=aGecIY04ymQ&ab_channel=MatheusCastiglioni
