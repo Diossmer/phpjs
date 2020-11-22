@@ -1,4 +1,4 @@
-/* https://developer.wordpress.org/rest-api/ css-tricks*/
+/* https://developer.wordpress.org/rest-api/ css-tricks | malvestida*/
 const NAME = "malvestida",
     DOMAIN = `https://${NAME}.com`,
     SITE = `${DOMAIN}/wp-json`,
