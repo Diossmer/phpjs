@@ -1,0 +1,30 @@
+{
+    "name":"#Malvestida",
+    "short_name":"#Malvestida",
+    "description":"Bienvenid@s a #Malvestida, serie de contenido de la nuevas tendencias. :)",
+    "background_color":" #00F",
+    "theme_color":"#770",
+    "orientation":"portrait",
+    "display":"standalone",
+    "start_url":"../../?utm_source=web_app_manifest",
+    "scope":"/",
+    "lang":"es",
+    "icons":[{
+        "src":"../assets/favicon.png",
+        "sizes":"16x16",
+        "type":"image/png"
+        // "purpose":"maskable"
+    },
+    {
+        "src":"../assets/prueba.jpg",
+        "sizes":"300x300",
+        "type":"image/jpeg"
+        // "purpose":"any"
+    },
+    {
+        "src":"../assets/prueba2.png",
+        "sizes":"144x144",
+        "type":"image/png"
+    }],
+    "splash_pages": null
+}

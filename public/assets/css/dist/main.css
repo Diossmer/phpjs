@@ -1,0 +1,133 @@
+/* Diseño en caja
+**{
+    margin: 0;
+    padding: 0;
+}
+*/
+*{
+    margin: 0;
+    padding: 0;
+}
+    :root{
+    --yellow-color:#0D30DF;
+    --dark-color:#FF4089;
+    }
+    .cards{
+        border:thin solid var(--dark-color);
+        padding: 1rem;
+    }
+    .card{
+        display: inline-block;
+        background-color: var(--dark-color);
+        color: var(--yellow-color);
+    }
+    .card figcaption{
+        padding: 1rem;
+    }
+    .rotate-45{
+        transform:rotate(45deg);
+    }
+    .rotate-135{
+        transform: rotate(135deg);
+    }
+    .opacity-80{
+        opacity: .8;
+    }
+    .sepia{
+        filter: sepia(1);
+    }
+    .evento-flujo div{
+        padding: 4rem;
+        font-size: 2rem;
+        text-align: center;
+    }
+    .uno{
+        background-color: yellow;
+    }
+    .dos{
+        background-color: gold;
+    }
+    .tres{
+        background-color: lightyellow;
+    }
+    /************* PEGADO ***************/
+.wrap{
+    background-color: #000;
+}
+.header{
+    background-color: blanchedalmond;
+}
+.header_contenido{
+    background-color: red;
+}
+.navegation{
+background-color: cadetblue;
+}
+.list_navegation{
+    display: flex;
+    flex-direction: row;
+}
+.list_navegation li{
+    margin: 0 auto;
+    padding: 10px;
+    list-style: none;
+}
+.list_navegation li a{
+    color: #fff;
+    font-weight: 600;
+    text-decoration: none;
+}
+.contenido{
+width: 80vw;
+margin: 0 auto;
+background-color: darkgreen;
+}
+.texto{
+    text-align: center;
+    font-size: 2em;
+    font-weight: 900;
+    padding: 5%;
+    height: 100vh;
+}
+.info{
+    text-align: center;
+    font-size: 2em;
+    font-weight: 900;
+    padding: 5%;
+}
+h1{
+    background-color: rgba(0, 0, 255, 1);
+    color: #fff;
+    text-align: center;
+}
+.tutorial{
+color: darkorange;
+}
+.menu_contenido{
+    width: 50vw;
+    margin: 0 auto;
+}
+.menu_contenido-web{
+width: 30vw;
+margin: 0 auto;
+list-style: decimal;
+font-size: 1.5em;
+font-weight: 900;
+}
+.menu_contenido-web a{
+    text-decoration: none;
+    font-weight: 600;
+    color: #fff;
+}
+.pendiente >ul li{
+    width: 30vw;
+    margin: 0 auto;
+    font-size: 1.5em;
+    font-weight: 900;
+}
+.menu ul li{
+    list-style: none;
+}
+.menu ul li a{
+    text-decoration: none;
+}

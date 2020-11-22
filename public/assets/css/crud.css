@@ -1,0 +1,48 @@
+*,*:before,*:after{
+    box-sizing: inherit;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    text-decoration: none;
+}
+:root{
+    --black:#000;
+    --lightGreen:rgba(0,255,0,.5);
+    --lightYellow:rgba(255,255,0,.5);
+    --orange:#f80;
+    --lightBlue:rgb(50, 50, 255,.5);
+    --main-font:sans-serif;
+    --font-size: 16px;
+}
+html{
+    box-sizing: border-box;
+    font-family: var(--main-font);
+    font-size: var(--font-size);
+    scroll-behavior: smooth;
+}
+body{
+    background-color: var(--orange);
+    overflow-x: hidden;
+}
+.crud{
+    text-align: center;
+    width: 30rem;
+    margin: 0 auto;
+}
+.crud-title{
+    background-color: var(--lightBlue);
+}
+.crud-form{
+    background-color: var(--lightGreen);
+    height: 10rem;
+    padding-top: 30px;
+}
+.crud-form input{
+    margin: 5px;
+    padding: 5px;
+    border-radius: 10rem;
+    border:thick solid var(--lightBlue);
+}
+.crud-table{
+background-color: var(--lightYellow);
+}

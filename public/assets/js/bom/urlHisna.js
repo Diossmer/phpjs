@@ -1,0 +1,32 @@
+/*
+assign reemplaza una url con otra.
+*/
+console.log('***********Objeto URL (location)***********')
+console.log(location)
+console.log(location.hash)
+console.log(location.host)
+console.log(location.hostname)
+console.log(location.href)
+console.log(location.origin)
+console.log(location.pathname)
+console.log(location.port)
+console.log(location.protocol)
+console.log(location.search)
+//console.log(location.reload())
+console.log('***********Objeto Historial (history)***********')
+console.log(history)
+console.log(history.length)
+// console.log(history.back(2))
+// console.log(history.forward())
+// console.log(history.go()) -1 0 +1
+console.log('***********Objeto Navegador (navigator)***********')
+console.log(navigator)
+console.log(navigator.connection)
+console.log(navigator.geolocation)
+console.log(navigator.mediaDevices)
+console.log(navigator.mimeTypes)
+console.log(navigator.onLine)
+console.log(navigator.serviceWorker) //convertir una applicacion a un PWA
+console.log(navigator.storage)
+console.log(navigator.usb)
+console.log(navigator.userAgent)
