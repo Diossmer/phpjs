@@ -17,7 +17,7 @@
                 <textarea name="comments" cols="50" rows="5" id="" placeholder="Escribe tus comentarios" data-pattern="^.{1,255}$" title="Tu comentario no debe exceder los 255 caracteres" required></textarea>
                 <input type="submit" value="Enviar">
                 <div class="contact-form-loader none">
-                    <img src="../../public/assets/svg/puff.svg" alt="Cargando">
+                    <img src="../../public/assets/svg/puff.svg" alt="Cargando...">
                 </div>
                 <div class="contact-form-response none">
                     <p>Los datos han sido enviados</p>

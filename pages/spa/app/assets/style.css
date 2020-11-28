@@ -37,6 +37,13 @@ img {
   font-size: 150%;
   padding: 1rem;
 }
+.error mark{
+  padding: .5rem;
+  border-radius: .5rem;
+  display: inline-block;
+  color: white;
+  background-color: #550;
+}
 .search-form{
   margin: auto;
   text-align: center;

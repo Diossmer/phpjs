@@ -14,6 +14,7 @@
     <link rel="stylesheet" href="app/assets/style.css">
     <link rel="icon" href="app/assets/favicon.png" type="image/png" sizes="16x16">
     <link rel="manifest" href="app/helpers/manifest.json">
+    <style id="dynamic-styles"></style>
 </head>
 <body>
     <div id="root"></div>
