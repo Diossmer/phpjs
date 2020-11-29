@@ -1,4 +1,4 @@
-#Archivo que no me permite github subir añadir el archivo en
+# Archivo que no me permite github subir añadir el archivo en
 
 > pages/pwa/{pwa.html}
 >> Ese es el archivo faltante añadir el codigo a continuación
