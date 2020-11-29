@@ -3,7 +3,7 @@
 }
 /*
 Para crear un archivo interno puede hacer lo siguiente comando:
-$ sass estilos.scss:estios.css
+$ sass estilos.scss:estilos.css
 para crear una carpeta y archivo interno es lo siguiente:
 $ sass estilos.scss:css/estios.css
 Para crear archivo con la estenxión de la carpeta externa css en sass tiene que estar
@@ -12,5 +12,5 @@ adentro de la carpeta sass o scss eh incluir lo siguiente codigo de su proyecto
 Para iniciar la compilacion integramos la palabra --watch como lo siguiente:
 /var/www/html/phpjs/public/assets/sass$ sass --watch estilos.scss:../css/estilos.css
 sass --watch estilos.scss:css/estios.css
-OJO = Tiene que estar adentro en la carpeta sass||scss para ejecutar el comando.
+OJO = Tiene que tener creado el archivo en sass y estar adentro en la carpeta sass||scss para ejecutar el comando.
 */
