@@ -3,6 +3,7 @@
 }
 /*
 Para crear un archivo interno puede hacer lo siguiente comando:
+$ touch estilos.scss | sass style0.scss:../css/estilos.css
 $ sass estilos.scss:estilos.css
 para crear una carpeta y archivo interno es lo siguiente:
 $ sass estilos.scss:css/estios.css
