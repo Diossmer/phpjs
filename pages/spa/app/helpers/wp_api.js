@@ -1,6 +1,6 @@
-/* https://developer.wordpress.org/rest-api/ css-tricks | malvestida*/
-const NAME = "css-tricks",
-    DOMAIN = `https://${NAME}.com`,
+/* https://developer.wordpress.org/rest-api/ css-tricks | malvestida */
+const NAME = "responsivedesign",
+    DOMAIN = `https://${NAME}.is`,//responsivedesign.is
     SITE = `${DOMAIN}/wp-json`,
     API_WP = `${SITE}/wp/v2`,
     PER_PAGE=10,

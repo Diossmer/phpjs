@@ -1,4 +1,4 @@
-import {Header} from "./components/Header.js"
+import {Header} from "./components/header.js"
 import {Main} from "./components/Main.js";
 import {Loader} from "./components/Loader.js"
 import {Router} from "./components/Router.js";
