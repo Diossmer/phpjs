@@ -1,0 +1,251 @@
+/* Sass extiende la regla @import de CSS con la capacidad de importar Sass y hojas de estilo CSS, proporcionando acceso
+    a las mezclas, funciones y variables y combinando varias hojas de estilo CSS juntas. A diferencia de las importaciones
+    de CSS simples, que requieren que el navegador haga múltiples peticiones HTTP a medida que renderiza su página,
+    las importaciones de Sass se manejan completamente durante la compilación.
+
+    Las importaciones Sass tienen la misma sintaxis que las importaciones CSS, excepto que permiten que las importaciones
+    múltiples se separen por comas en lugar de requerir que cada una tenga su propia @importación. Además, en la sintaxis
+    indentada, no se requiere que las URLs importadas tengan comillas.
+
+    ⚠️ ¡Atención!
+    El equipo de Sass desalienta el uso continuado de la regla de @importación. Sass la eliminará gradualmente en los
+    próximos años, y eventualmente la eliminará por completo del lenguaje. Prefieren la regla del @uso en su lugar.
+    (Nótese que sólo Dart Sass actualmente soporta @use. Los usuarios de otras implementaciones deben usar
+    la regla @import en su lugar).
+
+// ¿Qué tiene de malo @import?
+/* La regla @import tiene varios problemas serios:
+
+    @import hace que todas las variables, mezclas y funciones sean accesibles globalmente.
+    Esto hace que sea muy difícil para la gente (o las herramientas) saber dónde se define cualquier cosa.
+
+    Como todo es global, las bibliotecas deben poner un prefijo a todos sus miembros para evitar nombrar las colisiones.
+
+    Las reglas de @extend también son globales, lo que hace difícil predecir qué reglas de estilo se extenderán.
+
+    Cada hoja de estilo se ejecuta y su CSS se emite cada vez que es @importada, lo que aumenta el tiempo de
+    compilación y produce una salida hinchada.
+
+    No había forma de definir los miembros privados o selectores de posición que eran inaccesibles a las hojas de estilo de abajo.
+
+    El nuevo sistema de módulos y la regla de @uso resuelven todos estos problemas.
+
+// ¿Cómo puedo migrar?
+/* Hemos escrito una herramienta de migración que convierte automáticamente la mayoría del código basado
+    en @importación a código basado en @uso en un instante. ¡Sólo tienes que apuntar a tus puntos de entrada y dejarla correr!
+// foundation/_code.sass
+code
+  padding: .25em
+  line-height: 0
+// foundation/_lists.sass
+ul, ol
+  text-align: left
+
+  & &
+    padding:
+      bottom: 0
+      left: 0
+// style.sass
+// @import foundation/code, foundation/lists
+/* Cuando Sass importa un archivo, éste se evalúa como si su contenido apareciera directamente en lugar del @importador.
+    Cualquier mezcla, función y variable del archivo importado se hace disponible, y todo su CSS se incluye en el punto
+    exacto en el que se escribió el @importe. Además, cualquier mezcla, función o variable que se haya definido antes
+    de la @importación (incluso de otras @importaciones) está disponible en la hoja de estilo importada.
+
+    ⚠️ ¡Atención!
+    Si la misma hoja de estilo se importa más de una vez, se evaluará de nuevo cada vez. Si sólo define
+    funciones y mezclas, normalmente no es gran cosa, pero si contiene reglas de estilo serán compiladas a CSS más de una vez.
+
+// Encontrar el archivo
+/* No sería divertido escribir URLs absolutas para cada hoja de estilo que se importe, por lo que el algoritmo
+    de Sass para encontrar un archivo a importar lo hace un poco más fácil. Para empezar, no tienes que escribir
+    explícitamente la extensión del archivo que quieres importar; @importar "variables" cargará automáticamente
+    variables.scss, variables.sass, o variables.css.
+
+    ⚠️ ¡Atención!
+    Para asegurarse de que las hojas de estilo funcionen en todos los sistemas operativos, Sass importa
+    los archivos por URL, no por ruta de archivo. Esto significa que necesitas usar barras de avance,
+    no barras de retroceso, incluso cuando estás en Windows.
+
+// Rutas de carga
+/* Todas las implementaciones de Sass permiten a los usuarios proporcionar rutas de carga: rutas en el sistema
+    de archivos que Sass buscará al resolver importaciones. Por ejemplo, si se pasa node_modules/susy/sass como
+    ruta de carga, se puede usar @import "susy" para cargar node_modules/susy/sass/susy.scss.
+
+    Sin embargo, las importaciones siempre se resolverán primero en relación con el archivo actual.
+    Las rutas de carga sólo se utilizarán si no existe ningún archivo relativo que coincida con la importación.
+    Esto asegura que no puedas desordenar accidentalmente tus importaciones relativas cuando añadas una nueva biblioteca.
+
+    💡 Dato curioso:
+    A diferencia de otros idiomas, Sass no requiere que uses ./ para las importaciones relativas.
+    Las importaciones relativas siempre están disponibles.
+
+// Parcialmente
+/* Como convención, los archivos de Sass que sólo están destinados a ser importados,
+    no compilados por sí mismos, comienzan con _ (como en _code.scss). Estos se llaman parciales,
+    y le dicen a las herramientas de Sass que no intenten compilar esos archivos por su cuenta.
+    Puedes dejar fuera el _ al importar un parcial.
+
+// Archivos de índice
+/* Si se escribe un _index.scss o _index.sass en una carpeta, al importarse la propia carpeta ese archivo se cargará en su lugar.
+// foundation/_code.sass
+code
+  padding: .25em
+  line-height: 0
+// foundation/_lists.sass
+ul, ol
+  text-align: left
+
+  & &
+    padding:
+      bottom: 0
+      left: 0
+// foundation/_index.sass
+// @import code, lists
+// style.sass
+// @import foundation
+// Importadores de aduana
+/* Todas las implementaciones de Sass proporcionan una forma de definir importadores personalizados, que
+    controlan cómo los @importes localizan las hojas de estilo:
+
+    Node Sass y Dart Sass en npm proporcionan una opción de importador como parte de su JS API.
+
+    Dart Sass en pub proporciona una clase de importador abstracto que puede ser ampliado por un importador personalizado.
+
+    Ruby Sass provee un resumen de Importadores::Clase base que puede ser extendida por un importador personalizado.
+
+// Anidamiento(Nesting)
+
+/* Las importaciones suelen escribirse en el nivel superior de una hoja de estilo, pero no tienen por qué serlo.
+    Pueden anidar dentro de las reglas de estilo o también en las reglas de CSS. El CSS importado está anidado en ese contexto,
+    lo que hace que las importaciones anidadas sean útiles para ampliar el alcance de un trozo de CSS a
+    un elemento o consulta de medios en particular. Sin embargo, hay que tener en cuenta que las mezclas,
+    funciones y variables de nivel superior definidas en la importación anidada siguen estando definidas globalmente.
+// _theme.sass
+pre, code
+  font-family: 'Source Code Pro', Helvetica, Arial
+  border-radius: 4px
+// style.sas
+.theme-sample
+//   @import theme
+/* 💡 Dato curioso:
+    Las importaciones anidadas son muy útiles para la búsqueda de hojas de estilo de terceros,
+    pero si eres el autor de la hoja de estilo que estás importando,
+    suele ser una mejor idea escribir tus estilos en una mezcla e incluir esa mezcla en el contexto anidado.
+    Un mixin se puede utilizar de forma más flexible, y al mirar la hoja de estilo
+    importada se ve más claramente cómo se va a utilizar.
+
+    ⚠️ ¡Atención!
+    El CSS en las importaciones anidadas se evalúa como un mixin, lo que significa que cualquier seleccionador
+    padre se referirá al selector en el que la hoja de estilo está anidada.
+// _theme.sass
+ul li
+  $padding: 16px
+  padding-left: $padding
+  [dir=rtl] &
+    padding:
+      left: 0
+      right: $padding
+// style.sass
+.theme-sample
+//   @import theme
+// Importando CSS
+/* Además de importar archivos .sass y .scss, Sass puede importar archivos .css normales. La única regla es
+    que la importación no debe incluir explícitamente la extensión .css, porque eso se usa para indicar una
+// @import CSS simple.
+// code.css
+// code {
+//   padding: .25em;
+//   line-height: 0;
+// }
+// style.sass
+// @import code
+/* Los archivos CSS importados por Sass no permiten ninguna característica especial de Sass. Para asegurarse
+    de que los autores no escriban accidentalmente Sass en sus CSS, todas las características de Sass que no
+    sean también válidas en CSS producirán errores. De lo contrario, el CSS se mostrará tal cual. ¡Incluso puede ser extendido!
+// CSS común @import
+/* Debido a que @import también está definido en CSS, Sass necesita una forma de compilar @importes CSS
+    simples sin intentar importar los archivos en tiempo de compilación. Para lograr esto, y para asegurar
+    que SCSS es un superconjunto de CSS tanto como sea posible, Sass compilará cualquier @importación con
+    las siguientes características para las importaciones de CSS plano:
+
+    Importaciones donde la URL termina con .css.
+    Importaciones donde la URL comienza http:// o https://.
+    Importaciones en las que la URL está escrita como url().
+    Importaciones que tienen consultas de medios.
+@import "theme.css"
+@import "http://fonts.googleapis.com/css?family=Droid+Sans"
+@import url(theme)
+@import "landscape" screen and (orientation: landscape)
+// Interpolación
+/* Aunque las importaciones de Sass no pueden utilizar la interpolación (para asegurarse de que siempre es posible
+    saber de dónde vienen las mezclas, funciones y variables), las importaciones simples de CSS sí pueden. Esto hace
+    posible generar dinámicamente importaciones, por ejemplo, basadas en parámetros de mezclas.
+@mixin google-font($family)
+  @import url("http://fonts.googleapis.com/css?family=#{$family}")
+
+
+@include google-font("Droid Sans")
+// Importación y módulos
+/* El sistema de módulos de Sass se integra perfectamente con @import, tanto si se importa un archivo que contiene
+    reglas de @uso como si se carga un archivo que contiene importaciones como un módulo. Queremos que la transición
+    de @importar a @usar sea lo más suave posible.
+
+    Importación de un archivo de sistema de módulos permalinkImportación de un archivo de sistema de módulos
+    Cuando se importa un archivo que contiene reglas de @uso, el archivo importador tiene acceso a todos los
+    miembros (incluso a los miembros privados) definidos directamente en ese archivo, pero no a los miembros
+    de los módulos que ese archivo ha cargado. Sin embargo, si ese archivo contiene reglas de @envío, el
+    archivo de importación tendrá acceso a los miembros reenviados. Esto significa que puede importar una
+    biblioteca que se escribió para ser utilizada con el sistema de módulos.
+
+    ⚠️ ¡Atención!
+    Cuando se importa un archivo con reglas de @uso, todos los CSS cargados transitoriamente por esos se incluyen
+    en la hoja de estilos resultante, incluso si ya ha sido incluido por otra importación. ¡Si no tienes cuidado,
+    esto puede resultar en una salida de CSS inflada!
+
+// Archivos de sólo importación
+/* Una API que tiene sentido para @usar podría no tener sentido para @importar. Por ejemplo, @use añade un espacio
+    de nombres a todos los miembros de forma predeterminada para que puedas usar nombres cortos con seguridad, pero
+    @import no lo hace, por lo que puede que necesites algo más largo. Si es autor de una biblioteca, puede
+    preocuparle que si actualiza su biblioteca para utilizar el nuevo sistema de módulos, sus usuarios actuales
+    basados en @import se quebrarán.
+
+    Para facilitar esto, Sass también soporta archivos de sólo importación. Si nombra un archivo <nombre>.import.scss,
+    sólo se cargará para las importaciones, no para los @usuarios. De esta manera, puede mantener la compatibilidad
+    para los usuarios de @importación y al mismo tiempo proporcionar una buena API para los usuarios del nuevo sistema de módulos.
+// _reset.sass
+
+// Module system users write `@include reset.list()`.
+@mixin list()
+  ul
+    margin: 0
+    padding: 0
+    list-style: none
+// _reset.import.sass
+
+// Legacy import users can keep writing `@include reset-list()`.
+// @forward "reset" as reset-*
+// Configurar los módulos a través de las importaciones
+/* Puedes configurar los módulos que se cargan a través de un @importe definiendo variables globales
+    antes del @importe que carga primero ese módulo.
+$color: blue !default
+
+a
+  color: $color
+// _library.import.sass
+// @forward 'library' as lib-*
+// style.sass
+$lib-color: green
+// @import "library"
+/* ⚠️ ¡Atención!
+    Los módulos sólo se cargan una vez, así que si cambias la configuración después de @importar un módulo
+    por primera vez (incluso indirectamente), el cambio será ignorado si @importas el módulo de nuevo.
+
+    Cargando un módulo que contiene importaciones permalinkCargando un módulo que contiene importaciones
+    Cuando utilice @use (o @forward) cargue un módulo que utilice @import, ese módulo contendrá todos los miembros
+    públicos definidos por la hoja de estilos que cargue y todo lo que esa hoja de estilos importe de forma transitoria.
+    En otras palabras, todo lo que se importa se trata como si estuviera escrito en una gran hoja de estilo.
+
+    Esto hace que sea fácil convertir empezar a usar @use en una hoja de estilos incluso antes de que todas
+    las bibliotecas de las que dependes se hayan convertido al nuevo sistema de módulos. Sin embargo, tenga en
+    cuenta que si convierten sus APIs, ¡puede que cambien!

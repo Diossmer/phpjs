@@ -1,0 +1,92 @@
+///Declaraciones de propiedad
+/* En Sass como en CSS, las declaraciones de propiedades definen cómo se estilizan
+    los elementos que coinciden con un selector. Pero Sass añade características
+    extra para hacerlas más fáciles de escribir y de automatizar. En primer lugar,
+    el valor de una declaración puede ser cualquier expresión de SassScript,
+    que será evaluada e incluida en el resultado.
+.circle
+  $size: 100px
+  width: $size
+  height: $size
+  border-radius: $size / 2
+///Interpolación
+/* El nombre de una propiedad puede incluir la interpolación,
+    que permite generar dinámicamente propiedades según sea necesario.
+    ¡Incluso puedes interpolar el nombre completo de la propiedad!
+@mixin prefix($property, $value, $prefixes)
+  @each $prefix in $prefixes
+    -#{$prefix}-#{$property}: $value
+
+  #{$property}: $value
+
+
+.gray
+  @include prefix(filter, grayscale(50%), moz webkit)
+///Anidamiento
+/* Muchas propiedades CSS empiezan con el mismo prefijo que actúa como una
+    especie de espacio de nombres. Por ejemplo, font-family, font-size y font-weight
+    comienzan con font-. Sass hace esto más fácil y menos redundante al permitir que
+    las declaraciones de propiedades sean anidadas. Los nombres de propiedades exteriores
+    se añaden a los interiores, separados por un guión.
+.enlarge
+  font-size: 14px
+  transition:
+    property: font-size
+    duration: 4s
+    delay: 2s
+
+  &:hover
+    font-size: 36px
+/* Algunas de estas propiedades CSS tienen versiones abreviadas que utilizan el espacio
+    de nombres como nombre de propiedad. Para estos, puede escribir tanto el valor
+    abreviado como las versiones anidadas más explícitas.
+.info-page
+  margin: auto
+    bottom: 10px
+    top: 2px
+///Declaraciones ocultas
+/* A veces sólo quieres que aparezca una declaración de propiedad alguna vez.
+    Si el valor de una declaración es nulo o una cadena vacía sin citar,
+    Sass no compilará esa declaración al CSS en absoluto.
+$rounded-corners: false
+
+.button
+  border: 1px solid black
+  border-radius: if($rounded-corners, 5px, null)
+///Propiedades personalizadas
+/* Las propiedades personalizadas de CSS, también conocidas como variables CSS,
+    tienen una sintaxis de declaración inusual: permiten casi cualquier texto en
+    sus valores de declaración. Es más, esos valores son accesibles a JavaScript,
+    así que cualquier valor podría ser potencialmente relevante para el usuario.
+    Esto incluye valores que normalmente serían analizados como SassScript.
+
+    Debido a esto, Sass analiza las declaraciones de propiedad personalizadas de
+    forma diferente a otras declaraciones de propiedad. Todos los testigos,
+    incluyendo aquellos que se parecen a SassScript, se pasan a CSS tal cual.
+    La única excepción es la interpolación, que es la única manera de inyectar
+    valores dinámicos en una propiedad personalizada.
+$primary: #81899b
+$accent: #302e24
+$warn: #dfa612
+
+:root
+  --primary: #{$primary}
+  --accent: #{$accent}
+  --warn: #{$warn}
+
+  // A pesar de que esto parece una variable de Sass, es válido CSS por lo que no es
+  // evaluados.
+  --consumed-by-js: $primary
+
+/* Desafortunadamente, la interpolación elimina las citas de las cadenas,
+    lo que dificulta el uso de cadenas citadas como valores de propiedades
+    personalizadas cuando provienen de variables de Sass. Como solución,
+    se puede utilizar la función meta.inspect() para preservar las comillas.
+// @use "sass:meta"
+
+// $font-family-sans-serif: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto
+// $font-family-monospace: SFMono-Regular, Menlo, Monaco, Consolas
+
+// :root
+// --font-family-sans-serif: #{meta.inspect($font-family-sans-serif)}
+// --font-family-monospace: #{meta.inspect($font-family-monospace)}

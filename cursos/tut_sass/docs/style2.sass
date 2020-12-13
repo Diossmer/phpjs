@@ -1,0 +1,27 @@
+///Especial Funciones
+$variable:"url/path/directorio/ubicacion del archivo"
+@font-face
+    src: url("#{variable}/agregar.extension")
+///calc(), element(), progid:...(), and expression()
+figure .logo
+    $width: 800px
+    width: $width
+    position: absolute
+    background: red
+    left: calc(50% - #{$width / 2})
+    top: 0
+///min() and max()
+$padding: 12px
+
+.post
+  // Ya que estas llamadas max() no usan ninguna característica de Sass aparte de
+  // interpolación, se compilan a las llamadas CSS max().
+  padding-left: max(#{$padding}, env(safe-area-inset-left))
+  padding-right: max(#{$padding}, env(safe-area-inset-right))
+
+
+.sidebar
+  // Dado que se refieren a una variable de Sass sin interpolación, se llaman
+  // La función de Sass built-in max().
+  padding-left: max($padding, 20px)
+  padding-right: max($padding, 20px)

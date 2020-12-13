@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Todo Web Site</title>
+    <link rel="shortcut icon" href="public/assets/images/iconow.ico" />
+    <!-- <link rel="stylesheet" href="public/assets/css/font.css"> -->
+    <link rel="stylesheet" href="public/assets/css/responsive.css">
+    <link rel="stylesheet" href="public/assets/css/awesome/all.min.css">
+    <link rel="stylesheet" href="public/assets/css/style.css" media="">
+    <script src="public/assets/js/js/all.min.js" crossorigin="anonymous"></script>
+    <!-- <script src="public/assets/js/head.js"></script> -->
+</head>
+
+<body>
+    <header>
+        <div class="container">
+            <div class="banner-top">
+                <div class="linkmenu" title="Menu">
+                    <i class="fa fa-th-list"></i>
+                </div>
+                <div class="porfile">
+                    <!-- Es con base de dato -->
+                    <div class="perfil" title="Perfil">
+                        <img src="public/assets/images/perfil.png" alt="perfil usuario">
+                        <div class="login-in">
+                            <ul>
+                                <a href="">
+                                    <li>Diossmer Villamizar</li>
+                                    <li>Administrador</li>
+                                </a>
+                            </ul>
+                        </div>
+                    </div>
+                    <a href="" title="Noticia"><i class="fa fa-newspaper"></i></a>
+                    <a href="" title="Documento"><i class="fa fa-file"></i></a>
+                    <a href="" title="Buscador"><i class="fas fa-search"></i></a>
+                    <!-- <a href="#"><i class="fa fa-window-close"></i></a> -->
+                    <!-- Base de dato -->
+                </div>
+                <div class="logo" title="Inicio">
+                    <a href="index.html">
+                        <img src="public/assets/images/Tws.png" alt="Tws" width="100" height="100">
+                    </a>
+                </div>
+                <div class="social">
+                    <a href="" title="Facebook"><i class="fab fa-facebook" aria-hidden="true"></i></a>
+                    <a href="" title="Whatsapp"><i class="fab fa-whatsapp"></i></a>
+                    <a href="" title="Github"><i class="fab fa-github"></i></a>
+                    <a href="" title="GitLab"><i class="fab fa-gitlab"></i></a>
+                    
+
+
+                    <a href="#openModal" title="Iniciar Sesión">Login</a>
+
+                    <div id="openModal" class="modalDialog">
+                    <div>
+                        <a href="#" title="Close" class="close"><i class="fa fa-window-close"></i></a>
+                        <h2>Login</h2>
+                        <form action="">
+                            <label for="">Usuario</label><br>
+                            <input type="text" name="" id=""><br>
+                            <label for="">Password</label><br>
+                            <input type="password" name="" id=""><br>
+                            <input type="submit" value="SEND">
+                        </form>
+                        <div class="wrap">
+                        <a href="">Recuperar contraseña</a><br>
+                        <a href=""><input type="checkbox">Recordar</a>
+                        <a href="">Registrar</a>
+                    </div>
+                    </div>
+                    </div>
+
+
+                </div>
+            </div>
+            <div class="menu">
+                <nav>
+                    <a href="">Curso</a>
+                    <a href="">Blog</a>
+                    <a href="">Foro</a>
+                    <a href="">Clasificación</a>
+                    <a href="">Servicios</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+    <main>
+        <div class="container-main">
+            <div class="aside">
+                <section class="slider">
+                    <ul>
+                        <li class="img">
+                            <img src="public/assets/images/fondoTws.png" alt="">
+                        </li>
+                        <!-- <li class="img">
+                            <img src="public/assets/images/gotokillyou.png" alt="">
+                        </li>
+                        <li class="img">
+                            <img src="public/assets/images/tws.svg" alt="">
+                        </li> -->
+                    </ul>
+                </section>
+                <!-- <div class="section">
+                    <button class="btn" id="prev"><i class="fa fa-caret-left"></i></button>
+                    <button class="btn" id="next"><i class="fa fa-caret-right"></i></button>
+                    <ul>
+                        <li class="option"></li>
+                        <li class="option"></li>
+                        <li class="option"></li>
+                    </ul>
+                </div> -->
+                <div class="foot">
+                    <time>section abarca el 100% es para etiquetas estaticas fija sin mover. <br>
+                        tambien puedes agregar el div para seguir maquetando los demas.</time>
+                </div>
+            </div>
+            <div class="titulo">
+                <h1>{{ message }}</h1>
+            </div>
+            <div class="content-card">
+                <div class="card-article">
+                    <div class="card-header">
+                        <h1>Cursos En Teoria</h1>
+                    </div>
+                    <div class="card-body">
+                        <img src="public/assets/images/codigo.gif" alt="img" width="100%" height="100%">
+                        <div class="table">
+                            <table>
+                                <tr>
+                                    <th>Especialidades</th>
+                                    <th>Conocimiento</th>
+                                    <th>Experiencia</th>
+                                </tr>
+                                <tr>
+                                    <td><img src="public/assets/images/html5.jpg" alt="Html5" width="50" height="50">
+                                    </td>
+                                    <td>Ejercicio</td>
+                                    <td>Examen</td>
+                                </tr>
+                                <tr>
+                                    <td><img src="public/assets/images/css3.png" alt="Css3" width="50" height="50">
+                                    </td>
+                                    <td>Ejercicio</td>
+                                    <td>Examen</td>
+                                </tr>
+                                <tr>
+                                    <td><img src="public/assets/images/javascript.png" alt="Javascript" width="50"
+                                            height="50"></td>
+                                    <td>Ejercicio</td>
+                                    <td>Examen</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <time>Mantenimiento</time>
+                    </div>
+                </div>
+                <div class="card-video">
+                    <div class="video-header">
+                        <h1>Curso En Youtube</h1>
+                    </div>
+                    <div class="video-body">
+                        <iframe width="560" height="315" src="https://www.youtube.com/embed/dv-O9BEqk8w?start=1"
+                            frameborder="0"
+                            allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+                            allowfullscreen></iframe>
+                        <iframe width="560" height="315"
+                            src="https://www.youtube.com/embed/videoseries?list=PLVv8l-GF6IFEdmLSOjh0XhRpBLvsCBdKV"
+                            frameborder="0"
+                            allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+                            allowfullscreen></iframe>
+                    </div>
+                    <div class="video-footer">
+                        <time>Mantenimiento</time>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <footer>
+        <div class="content-footer">
+            <div class="menu-footer">
+                <ul class="s">
+                    <li>
+                        <a href="">Curso</a>
+                    </li>
+                    <li>
+                        <a href="">Blog</a>
+                    </li>
+                    <li>
+                        <a href="">Foro</a>
+                    </li>
+                    <li>
+                        <a href="">Clasificación</a>
+                    </li>
+                    <li>
+                        <a href="">Servicios</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="license">
+                <h6>&#174;TodoWebSite <br> Todos Derecho Reservado &#169; 2019</h6>
+            </div>
+            <div class="contact">
+                <a href=""><i class="fab fa-facebook"></i></a>
+                <a href=""><i class="fab fa-whatsapp"></i></a>
+                <a href=""><i class="fab fa-github"></i></a>
+                <a href=""><i class="fab fa-gitlab"></i></a>
+            </div>
+        </div>
+    </footer>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="public/assets/js/section.js"></script>
+
+</body>
+
+</html>

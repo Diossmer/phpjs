@@ -1,0 +1,144 @@
+// Variables
+/* Las variables de Sass son simples: asignas un valor a un nombre que comienza con $,
+    y luego puedes referirte a ese nombre en lugar del valor en sí. Pero a pesar de su simplicidad,
+    son una de las herramientas más útiles que Sass trae a la mesa. Las variables permiten reducir
+    la repetición, hacer matemáticas complejas, configurar bibliotecas y mucho más.
+    Una declaración variable se parece mucho a una declaración de propiedad: está escrita <variable>: <expresión>.
+    A diferencia de una propiedad, que sólo puede ser declarada en una regla de estilo o en una regla, las variables
+    pueden ser declaradas donde quieras. Para usar una variable, sólo hay que incluirla en un valor.
+$base-color: #c6538c
+$border-dark: rgba($base-color, 0.88)
+
+.alert
+  border: 1px solid $border-dark
+/* El CSS tiene variables propias, que son totalmente diferentes a las variables de Sass. ¡Conozcan las diferencias!
+    Las variables de Sass son todas compiladas por Sass. Las variables de CSS están incluidas en la salida de CSS.
+    Las variables CSS pueden tener diferentes valores para diferentes elementos, pero las variables de Sass sólo
+    tienen un valor a la vez.
+    Las variables de Sass son imperativas, lo que significa que si usas una variable y luego cambias su valor,
+    el uso anterior seguirá siendo el mismo. Las variables CSS son declarativas, lo que significa que si cambias
+    el valor, afectará tanto a los usos anteriores como a los posteriores.
+$variable: value 1
+.rule-1
+  value: $variable
+
+
+$variable: value 2
+.rule-2
+  value: $variable
+/* Las variables de Sass, como todos los identificadores de Sass, tratan los guiones y los subrayados como idénticos.
+    Esto significa que $tamaño de la fuente y $tamaño_de_la_fuente se refieren a la misma variable. Esto es un
+    remanente histórico de los primeros días de Sass, cuando sólo permitía guiones bajos en los nombres
+    de los identificadores. Una vez que Sass añadió soporte para guiones para que coincidieran con la sintaxis de CSS,
+    los dos se hicieron equivalentes para facilitar la migración.
+// Valores predeterminados
+/* Normalmente, cuando se asigna un valor a una variable, si esa variable ya tenía un valor, su antiguo valor se sobrescribe.
+    Pero si estás escribiendo una biblioteca Sass, tal vez quieras permitir que tus usuarios configuren las variables
+    de tu biblioteca antes de usarlas para generar CSS.
+
+    Para que esto sea posible, Sass proporciona el indicador !default.
+    Esto asigna un valor a una variable sólo si esa variable no está definida o su valor es nulo.
+    En caso contrario, se utilizará el valor existente.
+    
+    Las variables definidas con !default pueden ser configuradas cuando se carga un módulo con la regla @use.
+    Las bibliotecas Sass suelen utilizar variables !default para permitir a sus usuarios configurar el CSS de la biblioteca.
+    Para cargar un módulo con la configuración, se escribe @use <url> con (<variable>: <valor>, <variable>: <valor>).
+    Los valores configurados anularán los valores por defecto de las variables. Sólo se pueden configurar las variables escritas
+    en el nivel superior de la hoja de estilo con una bandera predeterminada.
+        // _library.sass
+$black: #000 !default
+$border-radius: 0.25rem !default
+$box-shadow: 0 0.5rem 1rem rgba($black, 0.15) !default
+
+code
+  border-radius: $border-radius
+  box-shadow: $box-shadow
+  // style.sass
+// @use 'library' with ($black: #222, $border-radius: 0.1rem) <-<-<-<-<-<-<-<-<-<-<-<-
+// Variables integradas
+/* Las variables definidas por un módulo incorporado no pueden ser modificadas.
+// @use "sass:math" as math
+
+// // This assignment will fail.
+// math.$pi: 0
+
+// Alcance
+/* Las variables declaradas en el nivel superior de una hoja de estilo son globales.
+    Esto significa que se puede acceder a ellas en cualquier parte de su módulo después de haber sido declaradas.
+    Pero eso no es cierto para todas las variables. Aquellas declaradas en bloques (llaves rizadas en SCSS o código
+    indentado en Sass) son normalmente locales, y sólo pueden ser accedidas dentro del bloque en el que fueron declaradas.
+$global-variable: global value
+
+.content
+  $local-variable: local value
+  global: $global-variable
+  local: $local-variable
+
+
+.sidebar
+  global: $global-variable
+
+  // This would fail, because $local-variable isn't in scope:
+  // local: $local-variable
+// Sombreado
+/* Las variables locales pueden incluso ser declaradas con el mismo nombre que una variable global.
+    Si esto ocurre, hay en realidad dos variables diferentes con el mismo nombre: una local y una global.
+    Esto ayuda a asegurar que un autor que escribe una variable local no cambie accidentalmente
+    el valor de una variable global de la que ni siquiera son conscientes.
+$variable: global value
+
+.content
+  $variable: local value
+  value: $variable
+
+
+.sidebar
+  value: $variable
+/* Si necesitas establecer el valor de una variable global desde un ámbito local (como en un mixin),
+    puedes usar la bandera !global. Una declaración de variable marcada como !global siempre se asignará al ámbito global.
+$variable: first global value
+
+.content
+  $variable: second global value !global
+  value: $variable
+
+
+.sidebar
+  value: $variable
+/* La bandera !global sólo puede usarse para fijar una variable que ya ha sido declarada en el nivel superior de un archivo.
+    No puede ser usada para declarar una nueva variable.
+// Alcance del control de flujo
+/* Las variables declaradas en las reglas de control de flujo tienen reglas de alcance especiales: no ensombrecen las variables
+    al mismo nivel que la regla de control de flujo. En su lugar, sólo asignan a esas variables. Esto hace mucho más
+    fácil asignar condicionalmente un valor a una variable, o construir un valor como parte de un bucle.
+$dark-theme: true !default
+$primary-color: #f8bbd0 !default
+$accent-color: #6a1b9a !default
+
+@if $dark-theme
+  $primary-color: darken($primary-color, 60%)
+  $accent-color: lighten($accent-color, 60%)
+
+
+.button
+  background-color: $primary-color
+  border: 1px solid $accent-color
+  border-radius: 3px
+/* Las variables en el ámbito del control de flujo pueden asignarse a las variables existentes en el ámbito exterior,
+    pero no pueden declarar nuevas variables allí. Asegúrate de que la variable ya está declarada antes de asignarla,
+    incluso si necesitas declararla como nula.
+// Funciones variables avanzadas
+/* La biblioteca del núcleo de Sass proporciona un par de funciones avanzadas para trabajar con variables.
+    La función meta.variable-exists() devuelve si una variable con el nombre dado existe en el ámbito actual,
+    y la función meta.global-variable-exists() hace lo mismo pero sólo para el ámbito global.
+
+    Los usuarios ocasionalmente quieren usar la interpolación para definir un nombre de variable basado en otra variable.
+    Sass no permite esto, porque hace mucho más difícil saber de un vistazo qué variables están definidas y dónde.
+    Lo que puedes hacer, sin embargo, es definir un mapa desde los nombres hasta los valores a los que puedes acceder usando las variables.
+// @use "sass:map"
+
+// $theme-colors: ("success": #28a745, "info": #17a2b8, "warning": #ffc107)
+
+// .alert
+//   // Instead of $theme-color-#{warning}
+//   background-color: map.get($theme-colors, "warning")

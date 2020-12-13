@@ -1,0 +1,93 @@
+/*La regla @forward carga una hoja de estilo Sass y hace que sus mezclas, funciones y variables estén disponibles cuando la hoja
+    de estilo se carga con la regla @use. Permite organizar las bibliotecas de Sass en muchos archivos, al tiempo que permite a sus
+    usuarios cargar un único archivo de entrada.
+
+    La regla se escribe @forward "<url>". Carga el módulo en la URL dada al igual que @use, pero pone a disposición de los usuarios
+    de su módulo los miembros públicos del módulo cargado como si estuvieran definidos directamente en su módulo. Esos miembros no
+    están disponibles en tu módulo, sin embargo, si quieres eso, tendrás que escribir una regla @use también. No te preocupes,
+    ¡sólo cargará el módulo una vez!
+
+    Si escribe un @forward y un @use para el mismo módulo en el mismo archivo, siempre es una buena idea escribir primero el @forward.
+    De esta forma, si sus usuarios quieren configurar el módulo reenviado, esa configuración se aplicará al @forward antes
+    de que su @use lo cargue sin ninguna configuración.
+
+    💡 Dato curioso:
+    La regla @forward actúa igual que @use cuando se trata de la CSS de un módulo. Los estilos de un módulo reenviado serán
+    incluidos en la salida CSS compilada, y el módulo con el @forward puede extenderlo, incluso si no es también @use.
+// src/_list.sass
+@mixin list-reset
+  margin: 0
+  padding: 0
+  list-style: none
+// bootstrap.sass
+// @forward "src/list"
+// styles.sass
+// @use "bootstrap"
+
+li
+//   @include bootstrap.list-reset
+// Añadir un prefijo
+/* Dado que los miembros de los módulos suelen utilizarse con un espacio de nombres, los nombres cortos y sencillos suelen
+    ser la opción más legible. Pero esos nombres pueden no tener sentido fuera del módulo en el que están definidos,
+    por lo que @forward tiene la opción de añadir un prefijo extra a todos los miembros que reenvía.
+
+    Esto se escribe en @forward "<url>" como <prefijo>-*, y añade el prefijo dado al principio de cada mixin,
+    función y nombre de variable reenviado por el módulo. Por ejemplo, si el módulo define un miembro llamado
+    reset y es reenviado como list-*, las hojas de estilo posteriores se referirán a él como list-reset.
+// src/_list.sass
+@mixin reset
+  margin: 0
+  padding: 0
+  list-style: none
+// bootstrap.sass
+// @forward "src/list" as list-*
+// styles.sass
+// @use "bootstrap"
+
+li
+//   @include bootstrap.list-reset
+// Control de la visibilidad
+/* A veces, no quieres reenviar a todos los miembros de un módulo. Puede que quieras mantener algunos miembros en privado
+    para que sólo tu paquete pueda utilizarlos, o puede que quieras exigir a tus usuarios que carguen algunos miembros de
+    una manera diferente. Puedes controlar exactamente qué miembros son reenviados escribiendo
+    @forward "<url>" hide <members...> o @forward "<url>" show <members...>.
+
+    La forma de ocultar significa que los miembros listados no deben ser reenviados, pero todo lo demás sí.
+    La forma de mostrar significa que sólo los miembros nombrados deben ser reenviados. En ambas formas,
+    se listan los nombres de las mezclas, funciones o variables (incluyendo el $).
+// src/_list.sass
+$horizontal-list-gap: 2em
+
+@mixin list-reset
+  margin: 0
+  padding: 0
+  list-style: none
+
+
+@mixin list-horizontal
+  @include reset
+
+  li
+    display: inline-block
+    margin:
+      left: -2px
+      right: $horizontal-list-gap
+// bootstrap.sass
+// @forward "src/list" hide list-reset, $horizontal-list-gap
+// Configurando los módulos
+/* La regla @forward también puede cargar un módulo con configuración. Esto funciona casi igual que para @use,
+    con una adición: la configuración de una regla @forward puede usar la bandera !default en su configuración.
+    Esto permite a un módulo cambiar los valores por defecto de una hoja de estilo ascendente, mientras que
+    permite a las hojas de estilo descendentes anularlos.
+// _library.sass
+$black: #000 !default
+$border-radius: 0.25rem !default
+$box-shadow: 0 0.5rem 1rem rgba($black, 0.15) !default
+
+code
+  border-radius: $border-radius
+  box-shadow: $box-shadow
+// _opinionated.sass
+// @forward 'library' with ($black: #222 !default, $border-radius: 0.1rem !default)
+// style.sass
+// @use 'opinionated' with ($black: #333)

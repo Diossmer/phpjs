@@ -1,0 +1,19 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+@font-face{
+    font-family: rectos;
+    src: url(/public/assets/css/font/CreteRound-Italic.ttf);
+}
+@font-face{
+    font-family: dinamico;
+    src: url(/public/assets/css/font/CreteRound-Regular.ttf);
+}
+body{
+    font-family: rectos,serif; /*serif con diseño*/
+    font-weight: unset;
+}
+h1{
+    font-family: dinamico,sans-serif; /*no serif sin diseño*/
+}

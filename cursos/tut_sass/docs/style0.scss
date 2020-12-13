@@ -1,0 +1,13 @@
+/* identación de css Syntax(sintaxis) */
+@charset "utf-8";
+/* Sentencia que acepta código con brazalete {} y caracteres de punto y coma ;*/
+body{
+    margin: 0;
+}
+/* Toda la sintaxis es similar al css podemos anidar con los brazalete también agregar pseudo-elemento y pseudo-clases */
+header{
+    background-color: #eec;
+    &:hover{
+        background-color: #aaa;
+    }
+}

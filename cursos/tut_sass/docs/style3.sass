@@ -1,0 +1,85 @@
+/// Regla de estilos
+/* Las reglas de estilo son la base de Sass,
+    al igual que lo son para CSS. Y funcionan
+    de la misma manera: usted elige a qué
+    elementos aplicar estilo con un selector
+    y declara las propiedades que afectan el aspecto de esos elementos.
+.button
+    padding: 3px 10px
+    font-size: 12px
+    border-radius: 3px
+    border: 1px solid #e1e4e8
+/// Anidamiento
+/* Pero Sass quiere hacerte la vida más fácil.
+    En lugar de repetir los mismos selectores una y otra vez,
+    puede escribir reglas de un estilo dentro de otro.
+    Sass combinará automáticamente el selector de la regla externa
+    con el de la regla interna.
+nav
+    ul
+      margin: 0
+      padding: 0
+      list-style: none
+
+    li
+      display: inline-block
+
+    a
+      display: block
+      padding: 6px 12px
+      text-decoration: none
+
+/// Listas de selección
+/* Las reglas anidadas son inteligentes para manejar listas de selectores
+    (es decir, selectores separados por comas).
+    Cada selector complejo (los que están entre las comas) se anida por separado
+    y luego se vuelven a combinar en una lista de selectores.
+.alert, .warning
+  ul, p
+    margin-right: 0
+    margin-left: 0
+    padding-bottom: 0
+
+/// Combinadores selectores
+    /* También puede anidar selectores que utilicen combinadores.
+        Puede colocar el combinador al final del selector externo,
+        al comienzo del selector interno, o incluso por sí solo entre los dos.
+    ul >
+  li
+    list-style-type: none
+
+
+
+h2
+  + p
+    border-top: 1px solid gray
+
+
+
+p
+  ~
+    span
+      opacity: 0.8
+
+/// Anidamiento avanzado
+    /* Si desea hacer más con sus reglas de estilo anidadas que simplemente combinarlas
+        en orden con el combinador descendiente (es decir, un espacio simple) separándolas,
+        Sass lo respalda. Consulte la documentación del selector principal para obtener más detalles.
+/// Interpolación
+    /* Puede utilizar la interpolación para inyectar valores de expresiones como variables
+        y llamadas a funciones en sus selectores. Esto es particularmente útil cuando está
+        escribiendo mixins, ya que le permite crear selectores a partir de los parámetros
+        que pasan los usuarios.
+@mixin define-emoji($name, $glyph)
+  span.emoji-#{$name}
+    font-family: IconFont
+    font-variant: normal
+    font-weight: normal
+    content: $glyph
+
+
+
+@include define-emoji("women-holding-hands", "👭")
+/* Puede combinar la interpolación con el selector principal &, la regla @ at-root y
+    las funciones de selector para ejercer un poder importante al generar selectores
+    dinámicamente. Para obtener más información, consulte la documentación del selector principal.

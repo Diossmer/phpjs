@@ -1,0 +1,102 @@
+/// Parent Selector
+/* El selector padre, &, es un selector especial inventado por Sass
+    que se utiliza en selectores anidados para referirse al selector
+    exterior. Permite reutilizar el selector externo de formas más
+    complejas, como añadir una pseudo-clase o añadir un selector antes del padre.
+    Cuando se usa un selector principal en un selector interno, se reemplaza con el selector externo correspondiente.
+    Esto sucede en lugar del comportamiento normal de anidación.
+.alert
+  // El selector de padres puede ser usado para añadir pseudo-clases al exterior
+  // selector.
+  &:hover
+    font-weight: bold
+
+
+  // También puede utilizarse para estilizar el selector externo en un determinado contexto,
+  // como un cuerpo dispuesto a usar un lenguaje de derecha a izquierda.
+  [dir=rtl] &
+    margin-left: 0
+    margin-right: 10px
+
+
+  // Incluso puedes usarlo como argumento para los seleccionadores de pseudo-clase.
+  :not(&)
+    opacity: 0.8
+
+/*Debido a que el selector padre podría ser sustituido por un selector de tipo como h1,
+    sólo se permite al principio de los selectores compuestos donde también se permitiría
+    un selector de tipo. Por ejemplo, no se permite el span&.
+//Sin embargo, estamos buscando la manera de aflojar esta restricción. Si quieres ayudar a que eso suceda, mira este número de GitHub.
+// Adición de sufijos
+/* También puedes usar el selector de padres para añadir sufijos adicionales al selector externo.
+    Esto es particularmente útil cuando se usa una metodología como BEM que utiliza nombres de clase
+    altamente estructurados. Siempre y cuando el selector externo termine con un nombre alfanumérico
+    (como los selectores de clase, ID y elemento), puedes usar el selector padre para agregar texto adicional.
+.accordion
+  max-width: 600px
+  margin: 4rem auto
+  width: 90%
+  font-family: "Raleway", sans-serif
+  background: #f4f4f4
+
+  &__copy
+    display: none
+    padding: 1rem 1.5rem 2rem 1.5rem
+    color: gray
+    line-height: 1.6
+    font-size: 14px
+    font-weight: 500
+
+    &--open
+      display: block
+// En SassScript
+/* El selector de padres también se puede usar dentro de SassScript.
+    Es una expresión especial que devuelve el actual selector padre en el mismo formato
+    utilizado por las funciones de selección: una lista separada por comas (la lista de selección)
+    que contiene listas separadas por espacios (los selectores complejos) que contienen
+    cadenas no citadas (los selectores compuestos).
+.main aside:hover,
+.sidebar p
+  parent-selector: &
+  // => ((unquote(".main") unquote("aside:hover")),
+  //     (unquote(".sidebar") unquote("p")))
+/* Si la expresión "&" se usa fuera de cualquier regla de estilo, se devuelve nula.
+    Dado que null es falsa, esto significa que puedes usarla fácilmente para determinar
+    si un mixin está siendo llamado en una regla de estilo o no.
+@mixin app-background($color)
+  #{if(&, '&.app-background', '.app-background')}
+    background-color: $color
+    color: rgba(#fff, 0.75)
+
+
+
+@include app-background(#036)
+
+.sidebar
+  @include app-background(#c6538c)
+// Anidamiento avanzado
+/* Puedes usar & como una expresión normal de SassScript, lo que significa que puedes
+    pasarla a funciones o incluirla en la interpolación, ¡incluso en otros selectores!
+    Usarla en combinación con las funciones de los selectores y la regla @at-root te permite
+    anidar los selectores de manera muy poderosa.
+    Por ejemplo, supongamos que quieres escribir un selector que coincida con el selector exterior
+    y un selector de elementos. Podrías escribir una mezcla como esta que usa la función selector.unify()
+    para combinar & con un selector de usuario.
+// @use "sass:selector"
+
+// @mixin unify-parent($child)
+//   @at-root #{selector.unify(&, $child)}
+//     @content
+
+
+
+// .wrapper .field
+//   @include unify-parent("input")
+//     /* ... */
+
+//   @include unify-parent("select")
+//     /* ... */
+/* Cuando Sass está anidando selectores, no sabe qué interpolación se utilizó para generarlos.
+    Esto significa que automáticamente añadirá el selector externo al interno incluso si usó &
+    como una expresión de SassScript. Por eso necesitas usar explícitamente la regla @at-root para
+    decirle a Sass que no incluya el selector externo.

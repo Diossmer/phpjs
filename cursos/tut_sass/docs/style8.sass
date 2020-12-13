@@ -1,0 +1,68 @@
+// Interpolación
+/* Interpolation can be used almost anywhere in a Sass stylesheet to embed the result of a SassScript
+//      expression into a chunk of CSS. Just wrap an expression in #{} in any of the following places:
+/*  >Las reglas de estilo de los selectores
+    >Los nombres de las propiedades en las declaraciones
+    >Valores de propiedad personalizados
+    >El CSS en las reglas
+    >@extends
+    >CSS común @imports
+    >Cuerdas cotizadas o no cotizadas
+    >Funciones especiales
+    >Los nombres de las funciones del CSS
+    >Comentarios fuertes
+@mixin corner-icon($name, $top-or-bottom, $left-or-right)
+  .icon-#{$name}
+    background-image: url("/icons/#{$name}.svg")
+    position: absolute
+    #{$top-or-bottom}: 0
+    #{$left-or-right}: 0
+
+
+
+@include corner-icon("mail", top, right)
+// En SassScript
+/* La interpolación puede ser usada en SassScript para inyectar SassScript en las cadenas no citadas.
+    Esto es particularmente útil cuando se generan nombres dinámicamente (por ejemplo, para animaciones),
+    o cuando se utilizan valores separados por barras. Nótese que la interpolación en SassScript siempre
+    devuelve una cadena no cotizada.
+@mixin inline-animation($duration)
+  $name: inline-#{unique-id()}
+
+  @keyframes #{$name}
+    @content
+
+
+  animation-name: $name
+  animation-duration: $duration
+  animation-iteration-count: infinite
+
+
+.pulse
+  @include inline-animation(2s)
+    from
+      background-color: yellow
+    to
+      background-color: red
+/* La interpolación es útil para inyectar valores en las cadenas, pero aparte de eso, rara vez es necesaria
+    en las expresiones de SassScript. Definitivamente no es necesaria para usar una variable en un valor de propiedad.
+//  En lugar de escribir el color: #{$acento}, puedes escribir color: ¡$acento!
+
+/* Casi siempre es una mala idea usar la interpolación con los números. La interpolación devuelve cadenas no citadas que no pueden
+    ser usadas para ninguna otra matemática, y evita las salvaguardas incorporadas por Sass para asegurar que las unidades sean
+    usadas correctamente.
+
+    Sass tiene una poderosa aritmética de unidades que puedes usar en su lugar. Por ejemplo,
+//  en lugar de escribir #{$width}px, escribe $width * 1px--or
+/*  mejor aún, declara la variable $width en términos de px para empezar.
+    De esa manera, si $width ya tiene unidades, obtendrás un bonito mensaje de error en lugar de compilar un CSS falso.
+// Quoted Strings
+/* In most cases, interpolation injects the exact same text that would be used if the expression were used as a property value.
+    But there is one exception: the quotation marks around quoted strings are removed (even if those quoted strings are in lists).
+    This makes it possible to write quoted strings that contain syntax that’s not allowed in SassScript (like selectors)
+    and interpolate them into style rules.
+// .example
+//   unquoted: #{"string"}
+/* Aunque es tentador usar esta característica para convertir cadenas citadas en cadenas no citadas,
+    es mucho más claro usar la función string.unquote().
+//  En lugar de #{$string}, ¡escriba string.unquote($string)!

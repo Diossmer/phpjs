@@ -1,0 +1,37 @@
+// Selectores de marcador de posición (Placeholder selector)
+/* Sass tiene un tipo especial de selector conocido como "placeholder".
+    Se parece y actúa muy parecido a un selector de clase,
+    pero empieza con un % y no está incluido en la salida del CSS. De hecho,
+    cualquier selector complejo (los que están entre comas)
+    que incluso contiene un selector de marcador de posición no está incluido en el CSS,
+    ni tampoco ninguna regla de estilo cuyos selectores contienen todos marcadores de posición,
+.alert:hover, %strong-alert
+  font-weight: bold
+
+
+%strong-alert:hover 
+  color: red
+/* ¿Para qué sirve un selector que no se emite? ¡Todavía se puede extender!
+    A diferencia de los selectores de clase, los marcadores de posición no desordenan el CSS
+    si no están extendidos y no obligan a los usuarios de una biblioteca a utilizar nombres de clase
+    específicos para su HTML.
+%toolbelt
+  box-sizing: border-box
+  border-top: 1px rgba(#000, .12) solid
+  padding: 16px 0
+  width: 100%
+
+  &:hover
+    border: 2px rgba(#000, .5) solid
+
+.action-buttons
+  @extend %toolbelt
+  color: #4285f4
+
+
+.reset-buttons
+  @extend %toolbelt
+  color: #cddc39
+/* Los selectores de marcador de posición son útiles cuando se escribe una biblioteca de Sass
+    donde cada regla de estilo puede o no ser utilizada. Como regla general, si estás escribiendo
+    una hoja de estilo sólo para tu propia aplicación, suele ser mejor ampliar un selector de clase si está disponible.

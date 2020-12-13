@@ -1,0 +1,209 @@
+/** La regla @use carga mezclas, funciones y variables de otras hojas de estilo de Sass, y combina CSS de múltiples hojas de estilo.
+    Las hojas de estilo cargadas por @use se llaman "módulos". Sass también proporciona módulos incorporados llenos de funciones útiles.
+
+    La regla más simple de @use se escribe @use "<url>", que carga el módulo en la URL dada. Cualquier estilo cargado de esta manera
+    será incluido exactamente una vez en la salida compilada de CSS, sin importar cuántas veces se carguen esos estilos.
+
+    Las reglas de @uso de una hoja de estilo deben preceder a cualquier otra regla que no sea @forward,
+    incluyendo las reglas de estilo. Sin embargo, puede declarar variables antes de las reglas @use para usarlas al configurar los módulos.
+// foundation/_code.sass
+code
+  padding: .25em
+  line-height: 0
+// foundation/_lists.sass
+ul, ol
+  text-align: left
+
+  & &
+    padding:
+      bottom: 0
+      left: 0
+// style.sass
+// @use 'foundation/code'
+// @use 'foundation/lists'
+
+// Cargando miembros
+/** Puedes acceder a las variables, funciones y mezclas de otro módulo escribiendo
+    <espacio de nombres>.<variable>, <espacio de nombres>.<función>(), o @incluir <espacio de nombres>.<mixin>().
+    Por defecto, el espacio de nombres es sólo el último componente de la URL del módulo.
+
+    Los miembros (variables, funciones y mezclas) cargados con @use sólo son visibles en la hoja de estilos que los carga.
+    Otras hojas de estilo necesitarán escribir sus propias reglas de @use si también quieren acceder a ellas.
+    Esto ayuda a que sea fácil averiguar exactamente de dónde viene cada miembro.
+    Si quieres cargar miembros de muchos archivos a la vez, puedes usar la regla @forward
+    para reenviarlos a todos desde un archivo compartido.
+
+    💡 Dato divertido:
+    Debido a que @use añade espacios de nombre a los nombres de los miembros, es seguro elegir nombres muy simples como $radius o $width
+    cuando se escribe una hoja de estilo. Esto es diferente de la vieja regla @import, que animaba a los usuarios a escribir
+    nombres largos como $mat-corner-radius para evitar conflictos con otras bibliotecas, ¡y ayuda a mantener sus
+    hojas de estilo claras y fáciles de leer!
+// src/_corners.sass
+$radius: 3px
+
+@mixin rounded
+  border-radius: $radius
+// style.sass
+// @use "src/corners"
+
+.button
+//   @include corners.rounded (Choosing a Namespace)
+  padding: 5px + corners.$radius
+
+//Elegir un espacio de nombres
+/* Por defecto, el espacio de nombres de un módulo es sólo el último componente de su URL sin extensión de archivo.
+    Sin embargo, a veces puede ser que quieras elegir un espacio de nombres diferente: puede ser que quieras usar
+    un nombre más corto para un módulo al que te refieras mucho, o puede ser que estés cargando varios módulos con
+    el mismo nombre de archivo. Puedes hacer esto escribiendo @use "<url>" como <espacio de nombres>.
+// src/_corners.sass
+$radius: 3px
+
+@mixin rounded
+  border-radius: $radius
+// style.sass
+// @use "src/corners" as c
+
+.button
+//   @include c.rounded
+  padding: 5px + c.$radius
+/* Incluso puedes cargar un módulo sin un espacio de nombre escribiendo @use "<url>" como *. Sin embargo,
+    le recomendamos que sólo lo haga para hojas de estilo escritas por usted; de lo contrario,
+    ¡pueden introducir nuevos miembros que causen conflictos de nombres!
+// src/_corners.sass
+$radius: 3px
+
+@mixin rounded
+  border-radius: $radius
+// style.sass
+// @use "src/corners" as *
+
+.button
+//   @include rounded
+  padding: 5px + $radius
+//Miembros privados (Private Members)
+/* Como autor de la hoja de estilo, es posible que no quieras que todos los miembros que definas estén disponibles
+    fuera de tu hoja de estilo. Sass facilita la definición de un miembro privado comenzando su nombre con - o _.
+    Estos miembros funcionarán como de costumbre dentro de la hoja de estilos que los define, pero no formarán parte
+    de la API pública de un módulo. Eso significa que las hojas de estilo que cargan tu módulo no pueden verlas!
+
+    💡 Dato curioso:
+    Si quieres hacer que un miembro sea privado de un paquete entero en lugar de un solo módulo,
+    simplemente no reenvíes su módulo desde ninguno de los puntos de entrada de tu paquete
+    (las hojas de estilo que le dices a tus usuarios que carguen para usar tu paquete).
+    ¡Incluso puedes ocultar ese miembro mientras reenvías el resto de su módulo!
+// src/_corners.sass
+$-radius: 3px
+
+@mixin rounded
+  border-radius: $radius
+// style.sass
+// @use "src/corners"
+
+.button
+//   @include corners.rounded
+
+  // This is an error! $-radius isn't visible outside of `_corners.scss`.
+//   padding: 5px + corners.$-radius
+//Configuración (Configuration)
+/* Una hoja de estilo puede definir variables con la bandera predeterminada para hacerlas configurables.
+    Para cargar un módulo con configuración, escribe @use <url> con (<variable>: <valor>, <variable>: <valor>).
+    Los valores configurados anularán los valores por defecto de las variables.
+// _library.sass
+$black: #000 !default
+$border-radius: 0.25rem !default
+$box-shadow: 0 0.5rem 1rem rgba($black, 0.15) !default
+
+code
+  border-radius: $border-radius
+  box-shadow: $box-shadow
+// style.sass
+// @use 'library' with ($black: #222, $border-radius: 0.1rem)
+
+//Con Mixins (With Mixins)
+/* Configurar los módulos con @use ... con puede ser muy útil, especialmente cuando se utilizan bibliotecas que fueron
+    escritas originalmente para trabajar con la regla @import. Pero no es particularmente flexible, y no lo recomendamos
+    para casos de uso más avanzados. Si te encuentras con que quieres configurar muchas variables a la vez, pasar los mapas
+    como configuración, o actualizar la configuración después de que el módulo se cargue, considera escribir un mixin
+    para establecer tus variables en su lugar y otro mixin para inyectar tus estilos.
+// _library.sass
+$-black: #000
+$-border-radius: 0.25rem
+$-box-shadow: null
+
+/// If the user has configured `$-box-shadow`, returns their configured value.
+/// Otherwise returns a value derived from `$-black`.
+@function -box-shadow()
+  @return $-box-shadow or (0 0.5rem 1rem rgba($-black, 0.15))
+
+
+@mixin configure($black: null, $border-radius: null, $box-shadow: null)
+  @if $black
+    $-black: $black !global
+  @if $border-radius
+    $-border-radius: $border-radius !global
+  @if $box-shadow
+    $-box-shadow: $box-shadow !global
+
+
+@mixin styles
+  code
+    border-radius: $-border-radius
+    box-shadow: -box-shadow()
+// style.sass
+// @use 'library'
+// @include library.configure($black: #222, $border-radius: 0.1rem)
+// @include library.styles
+// Encontrar el módulo
+/* No sería divertido escribir URLs absolutas para cada hoja de estilo que se cargue, así que el algoritmo de Sass para encontrar
+    un módulo lo hace un poco más fácil. Para empezar, no tienes que escribir explícitamente la extensión del archivo que quieres
+    cargar; @use "variables" cargará automáticamente variables.scss, variables.sass, o variables.css.
+
+    ⚠️ ¡Atención!
+    Para asegurarse de que las hojas de estilo funcionen en todos los sistemas operativos, Sass carga los archivos por URL,
+    no por ruta de archivo. Esto significa que tienes que usar barras inclinadas hacia adelante, no hacia atrás, incluso en Windows.
+
+// Rutas de carga
+/* Todas las implementaciones de Sass permiten a los usuarios proporcionar rutas de carga: rutas en el sistema de archivos
+    en las que Sass buscará al localizar los módulos. Por ejemplo, si se pasa node_modules/susy/sass como ruta de carga,
+    se puede usar @use "susy" para cargar node_modules/susy/sass/susy.scss.
+
+    Sin embargo, los módulos siempre se cargarán primero en relación con el archivo actual. Las rutas de carga sólo se usarán
+    si no existe ningún archivo relativo que coincida con la URL del módulo. Esto garantiza que no se puedan desordenar
+    accidentalmente las importaciones relativas cuando se añade una nueva biblioteca.
+
+    💡 Dato curioso:
+    A diferencia de otros idiomas, Sass no requiere que uses ./ para las importaciones relativas. Las importaciones relativas siempre están disponibles.
+
+// Parcialmente
+/* Por convención, los archivos Sass que sólo se deben cargar como módulos, no compilados por sí mismos, comienzan con _ (como en _code.scss).
+    Estos se llaman parciales, y le dicen a las herramientas de Sass que no intenten compilar esos archivos por su cuenta.
+    Puedes dejar el _ al importar un parcial.
+
+// Archivos de índice
+/* Si escribes un _index.scss o _index.sass en una carpeta, el archivo de índice se cargará automáticamente cuando cargues el URL de la propia carpeta.
+// foundation/_code.sass
+code
+  padding: .25em
+  line-height: 0
+// foundation/_lists.sass
+ul, ol
+  text-align: left
+
+  & &
+    padding:
+      bottom: 0
+      left: 0
+// foundation/_index.sass
+// @use 'code'
+// @use 'lists'
+// style.sass
+// @use 'foundation'
+// Cargando CSS (Loading CSS)
+/* Además de cargar archivos .sass y .scss, Sass puede cargar archivos .css normales.
+// code.css
+// code {
+//   padding: .25em;
+//   line-height: 0;
+// }
+// style.sass
+// @use 'code'

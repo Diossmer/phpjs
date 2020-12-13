@@ -1,0 +1,60 @@
+///Sentencia universal
+    /* regla de estilo,como h1 {*regla*}
+header
+    figure
+        h1
+            background: red
+    /* control de flujo at-rules, como @media and @font-face
+@media screen and ( max-width: 75rem )
+    body
+        background: #c9538c
+        @font-face
+        font-family: "sans-serif"
+    /* Mixin usando @include
+    @mixin prueba
+        background: lightgreen
+    main
+        @include prueba
+    /* La regla @at-root
+@media print
+  body
+    width: 8in
+
+    @at-root (without: media)
+      color: #00f
+
+    @at-root (with: rule)
+      font-size: 1.2em
+///Sentencia de alto nivel
+    /* Cargar los modulos, usando @use
+    /* importar, usando @import
+    /* Mixin la definicion usando @mixin
+    /* la definicion de funcion, usando @fuction*/
+///Otras Sentencia
+    /* declaraciones de propiedad como width: 100px sólo se puede utilizar dentro de las reglas de estilo y algunos css at-rules
+    /*la regla sólo puede ser usada dentro de las reglas de estilo. @extend
+///expresión
+    /* Una expresión es todo lo que va a la derecha de una propiedad o declaración variable. Cada expresión produce un valor.
+    /* Cualquier valor de propiedad CSS válido es también una expresión Sass, pero las expresiones Sass son mucho más poderosas que los valores CSS simples.
+    /* Se pasan como argumentos a las mezclas y funciones, se usan para controlar el flujo con la regla @if, y se manipulan usando aritmética. Llamamos a la sintaxis de la expresión de Sass SassScript.
+////Literal
+    /* Numbers, que puede tener o no unidades como 12 o 100px
+    /* Strings, que puede tener o no comillas, como "Helvetica Neue" o negrita
+    /* Colors, a los que se puede hacer referencia por su representación hexadecimal o por su nombre, como #c6538c o azul.
+    /* boolean, el literal verdadero o falso.
+    /* El Singleton null
+    /* Lista de valores, que pueden estar separados por espacios o comas y que pueden estar entre corchetes o sin corchetes, como 1.5em 1em 0 2em, Helvetica, Arial, sans-serif,or [col1-start].
+    /* Maps, que asocian valores con claves como("background":red, "foreground":pink)*/
+///Operaciones
+    /* == and != se usan para comprobar si dos valores son iguales.
+    /* +, -, *, /, and % tienen su significado matemático habitual para los números, con comportamientos especiales para las unidades que coinciden con el uso de las unidades en las matemáticas científicas.
+    /* <, <=, >, and >= comprueban si dos números son mayores o menores que el otro.
+    /* and, or, and not tienen el comportamiento booleano habitual. Sass considera todos los valores "verdaderos" excepto los falsos y los nulos.
+    /* +, -, and / pueden ser usados para concatenar cadenas.
+    /* ( and ) puede ser usado para controlar explícitamente el orden de precedencia de las operaciones.*/
+///Otras expresiones
+    /* Variables, como $var.
+    /* Function calls, como nth($list, 1) or var(--main-bg-color), que puede llamar a las funciones de la biblioteca central de Sass o a las funciones definidas por el usuario, o que pueden ser compiladas directamente en CSS.
+    /* Special functions, como calc(1px + 100%) or url(http:/*myapp.com/assets/logo.png), que tienen sus propias reglas de análisis.
+    /* El padre selector, &.
+    /* El valor !important, que se analiza como una cadena sin comillas.*/
