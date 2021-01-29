@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,7 +11,7 @@
         <input type="text" name="todo-item" id="todo-item" placeholder="Tarea por hacer">
         <input type="submit" value="Agregar">
     </form>
-    <h2>List de Tareas</h2>
+    <h2>Lista de Tareas</h2>
     <ul id="todo-list"></ul>
     <script>
         const d=document,
@@ -20,12 +20,10 @@
         d.addEventListener('submit',e=>{
             if(!e.target.matches('#todo-form'))return false;
             e.preventDefault();
-
             //Agregar item a la lista
             let $li = d.createElement('li');
             $li.textContent=$item.value;
             $list.appendChild($li);
-
             //limpiar el input
             $item.value="";
             $item.focus();
