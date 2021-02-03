@@ -53,6 +53,7 @@ align-content:flex-start;
     flex-basis: 100px;
     /* Es un shorthand de las propiedades flex-grow flex-shrink y flex-basis en ese orden */
     flex:0 1 auto;
+    flex:0 1 22.222222%;
     
     
     
