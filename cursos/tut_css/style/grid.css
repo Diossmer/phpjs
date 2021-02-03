@@ -1,0 +1,125 @@
+html {
+    box-sizing: border-box;
+    font-size: 16px;
+    font-family: sans-serif;
+    scroll-behavior: smooth;
+  }
+
+  *,
+  *::after,
+  *::before {
+    box-sizing: inherit;
+  }
+
+  a[href="#top"] {
+    margin: 1rem;
+    display: block;
+    font-size: 2rem;
+    text-align: center;
+    text-decoration: none;
+  }
+
+  p {
+    margin: 0;
+  }
+
+  h2 {
+    margin-top: 50vh;
+    text-align: center;
+  }
+
+  img {
+    margin: auto;
+    display: block;
+    max-width: 100%;
+    height: auto;
+  }
+
+  .menu {
+    margin-bottom: 100vh;
+    font-size: 125%;
+  }
+
+  .menu li {
+    margin-bottom: 1rem;
+  }
+
+  .container {
+    margin: 0 auto;
+    width: 80%;
+    height: 80vh;
+    background-color: #222;
+    border: medium solid #000;
+  }
+
+  .item {
+    padding: 1rem;
+    font-size: 1.25rem;
+    background-color: #666;
+    border: medium solid #999;
+  }
+
+  .grid-explicit{
+      display: grid;
+      /* Grid de 3cx3r */
+      grid-template-rows: 2rem 20vh 30%;
+      grid-template-columns: 50% 100px 1fr;
+      /* Grid de 5cx4r*/
+      grid-template-columns: repeat(5,20%);
+      grid-template-rows: repeat(4,auto);
+      grid-template-rows: repeat(4,25%);
+      grid-template-columns: repeat(5,1fr); /* 1fr = espacio sobrante */
+      grid-template-rows: repeat(4,1fr);
+      /* Grid de 4cx5r*/
+      grid-template-columns: 20% repeat(2,30%) 20%;
+      grid-template-rows: repeat(5,auto);
+      column-gap: 1rem;
+      row-gap: 2rem;
+      /* gap:row column */
+      gap: 1vh 1vw;
+      gap:0;
+   }
+  .grid-explicit .item:nth-child(10){
+        color: cyan;
+       /*  grid-column-start: 2;
+        grid-column-end: 3;
+        grid-row-start: 2;
+        grid-row-end: 3;
+        grid-row: 2/3;
+        grid-column: 3/5; */
+        /* grid-area: grid-row-start / grid-row-end / grid-column-start / grid-column-end; */
+        grid-area: 2/3/3/5;
+    }
+    .grid-explicit .item:nth-child(12){
+        color: cyan;
+        grid-row:span 2;
+        grid-column:span 3;
+    }
+    .grid-explicit .item:nth-child(15){
+        color: cyan;
+        grid-row:1/span 2;
+        grid-column:1/span 2;
+    }
+
+    .grid-line-names{
+        display: grid;
+        /* Grid de 3cx3r */
+        grid-template-rows: repeat(3,1fr);
+        grid-template-columns: repeat(3,1fr);
+        grid-template-rows: [linea-r1] 1fr [linea-r2] 1fr [linea-r3] 1fr [linea-r4];
+        grid-template-columns: [linea-c1] 1fr [linea-c2] 1fr [linea-c3] 1fr [linea-c4];
+        grid-template-rows: [linea-r1] auto [linea-r2] auto [linea-r3] auto [linea-r4];
+    }
+    .grid-line-names .item:nth-child(3){
+        color: cyan;
+        grid-row: linea-r3/linea-r4;
+        grid-column: linea-c1/linea-c4;
+        /* grid-area: Son línea asignada por el cual se mueve por su nombre sea row o columns */
+        grid-area: linea-r3/linea-c1/linea-r4/linea-c4;
+    }
+
+    .grid-areas{
+        display: grid;
+        grid-template-columns: 100px 1fr 200px;
+        grid-template-rows: 100px 1fr 60px;  /* 7:24/19:25 Curso Grid CSS: (5/17) Posicionamiento con Grid Areas - #jonmircha */
+    }
