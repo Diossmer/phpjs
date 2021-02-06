@@ -69,6 +69,8 @@ html {
       /* Grid de 3cx3r */
       grid-template-rows: 2rem 20vh 30%;
       grid-template-columns: 50% 100px 1fr;
+      /* grid-template es una propiedad abreviada que combina grid-template-rows y grid-template-columns. */
+      grid-template: 60% 50%/ 200px;
       /* Grid de 5cx4r*/
       grid-template-columns: repeat(5,20%);
       grid-template-rows: repeat(4,auto);
@@ -92,7 +94,7 @@ html {
         grid-row-end: 3;
         grid-row: 2/3;
         grid-column: 3/5; */
-        /* grid-area: grid-row-start / grid-row-end / grid-column-start / grid-column-end; */
+        /* grid-area: grid-row-start / grid-column-start / grid-row-end / grid-column-end; */
         grid-area: 2/3/3/5;
     }
     .grid-explicit .item:nth-child(12){
@@ -120,6 +122,7 @@ html {
         grid-row: linea-r3/linea-r4;
         grid-column: linea-c1/linea-c4;
         /* grid-area: Son línea asignada por el cual se mueve por su nombre sea row o columns */
+        /* grid-area: grid-row-start / grid-column-start / grid-row-end / grid-column-end; */
         grid-area: linea-r3/linea-c1/linea-r4/linea-c4;
     }
 
