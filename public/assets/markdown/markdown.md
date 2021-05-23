@@ -41,7 +41,8 @@ Existen también dos maneras de crear enlaces, se pueden ver en la siguiente tab
 
     [Con titulo](http://joedicastro.com "titulo")
     [Sin titulo](http://joedicastro.com)
-    [Enlace 1][1], [Enlace 2][2], [Enlace 3][3]
+
+    - [Enlace 1][1],[Enlace 2][2], [Enlace 3][3]
 
     [1]: http://joedicastro.com/consejos
     [2]: http://joedicastro.com/consejos "Consejos"
