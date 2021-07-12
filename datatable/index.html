@@ -11,7 +11,7 @@
 </head>
 <body>
     <div class="container">
-        <button id="addRow">Add new row</button>
+        <a id="agregar" class="btn btn-success">Agregar</a>
         <table id="userTable" class="display" style="width:100%">
             <thead>
                 <tr>
@@ -21,6 +21,7 @@
                     <th>Extención.</th>
                     <th>Fecha de inicio</th>
                     <th>Salario</th>
+                    <th>Accion</th>
                 </tr>
             </thead>
             <tfoot>
@@ -31,10 +32,59 @@
                     <th>Extención.</th>
                     <th>Fecha de inicio</th>
                     <th>Salario</th>
+                    <th>Accion</th>
                 </tr>
             </tfoot>
         </table>
     </div>
+    
+    <!-- Modal to add new user starts-->
+    <div class="modal modal-slide-in new-user-modal fade" id="modals-slide-in">
+        <div class="modal-dialog">
+        <form class="add-new-user modal-content pt-0 row g-3">
+            <div class="modal-header">
+                <h5 class="modal-title" id="title"></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <!-- <div class="col-auto">
+                    <label for="nombre" class="form-label">ID</label>
+                    <input type="text" class="form-control" id="id">
+                </div> -->
+                <div class="col-auto">
+                    <label for="nombre" class="form-label">Nombre</label>
+                    <input type="text" class="form-control" id="name" placeholder="John Doe">
+                </div>
+                <div class="col-auto">
+                    <label for="nombre" class="form-label">Posición</label>
+                    <input type="text" class="form-control" id="position" placeholder="Accountant">
+                </div>
+                <div class="col-auto">
+                    <label for="nombre" class="form-label">Salario</label>
+                    <input type="text" class="form-control" id="salary" placeholder="$170">
+                </div>
+                <div class="col-auto">
+                    <label for="nombre" class="form-label">fecha Inicial</label>
+                    <input type="date" class="form-control" id="start_date" placeholder="2011/07/25">
+                </div>
+                <div class="col-auto">
+                    <label for="nombre" class="form-label">Consultorio</label>
+                    <input type="text" class="form-control" id="office" placeholder="Tokyo">
+                </div>
+                <div class="col-auto">
+                    <label for="apellido" class="form-label">Extn</label>
+                    <input type="number" class="form-control" id="extn" placeholder="8422" value="2134">
+                </div>
+                <div class="modal-footer col-8">
+                    <input type="submit" class="btn btn-primary mr-1 data-submit" id="submit" value="Guardar">
+                    <button type="reset" class="btn btn-dark" data-dismiss="modal">Cancel</button>
+                </div>
+            </div>
+        </form>
+        </div>
+    </div>
+    <!-- Modal to add new user Ends-->
+
     <script src="./public/assets/lib/js/bootstrap.js"></script>
     <script src="./public/assets/lib/jquery/jquery.js"></script>
     <script src="./public/assets/lib/js/datatables.js"></script>
