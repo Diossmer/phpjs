@@ -17,7 +17,7 @@ $(document).ready(function() {
             url: './public/data/es_es.json'
         },
         "ajax": './public/data/user.json',//"ajax": './public/data/user.json', || ../datatable/controller/UsuarioController.php
-        "method":"POST",
+        "method":"GET",
         "dataType":"json",
         "contentType":"application/json; charset=utf-8",
         "columns": [
@@ -41,7 +41,7 @@ $(document).ready(function() {
         $("#modals-slide-in").modal("show");
     });
 
-    //FORMULARIO SUBMIT
+    //FORMULARIO SUBMIT ADD
     var counter = 58;
     $("#form").submit(function(e){
         e.preventDefault();      
@@ -68,4 +68,11 @@ $(document).ready(function() {
         counter++;
     $("#modals-slide-in").modal("hide");
     });
+});
+
+//FORMULARIO DE EDITAR
+$(document).on('click','.edit',function(e){
+    e.preventDefault();
+    console.log(e);
+    $("#modals-slide-in").modal("show");
 });
