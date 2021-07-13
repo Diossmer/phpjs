@@ -1,8 +1,9 @@
 $(document).ready(function() {
-    var usuario = $('#userTable').DataTable( {
+    var table = $('#userTable').DataTable( {
         columnDefs:[{
             targets:-1,
             data:null,
+            dataSrc:"",
             defaultContent:`
             <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
                 <div class="btn-group">
@@ -17,6 +18,7 @@ $(document).ready(function() {
         },
         "ajax": './public/data/user.json',//"ajax": './public/data/user.json', || ../datatable/controller/UsuarioController.php
         "method":"POST",
+        "dataType":"json",
         "contentType":"application/json; charset=utf-8",
         "columns": [
             { "data": "name" },
@@ -28,13 +30,6 @@ $(document).ready(function() {
             { "data": "" },
         ],
     });
-
-
-
-
-
-
-
     
     //Nuevo usuario MODAL
     $("#agregar").click(function () { 
@@ -47,86 +42,30 @@ $(document).ready(function() {
     });
 
     //FORMULARIO SUBMIT
-    var counter = 57;
-    $(".add-new-user").submit(function(e){
-        e.preventDefault();
-        // id = $.trim($("#id").val());
-        $name = $.trim($("#name").val());
-        $position = $.trim($("#position").val());
-        $salary = $.trim($("#salary").val());
-        $start_date = $.trim($("#start_date").val());
-        $office = $.trim($("#office").val());
-        $extn = $.trim($("#extn").val());
-
-        /* console.log(
-        usuario.row
-        .add([counter,$name,$position,$salary,$start_date,$office,$extn])
-        .draw().node()
-        ); */
-
-        console.log(
-        usuario.row
-        .add({counter,$name,$position,$salary,$start_date,$office,$extn})
-        .draw().node()
-        );
-
-        /* usuario.row
-        .add({
-            "id" : counter,
-            "name" : $name,
-            "position" : $position,
-            "salary" : $salary,
-            "start_date" : $start_date,
-            "office" : $office,
-            "extn" : $extn})
-        .draw(); */
-
+    var counter = 58;
+    $("#form").submit(function(e){
+        e.preventDefault();      
+        let id = counter,
+        name = $.trim($("#name").val()),
+        position = $.trim($("#position").val()),
+        salary = $.trim($("#salary").val()),
+        start_date = $.trim($("#start_date").val()),
+        office = $.trim($("#office").val()),
+        extn = $.trim($("#extn").val());
+        table.row.add({id,name,position,salary,start_date,office,extn}).draw();
         $.ajax({
             url: "./public/data/user.json",
             type: "POST",
             dataType: "json",
             contentType:"application/json; charset=utf-8",
-            data:{
-                id: counter,
-                name: $name,
-                position: $position,
-                salary: $salary,
-                start_date: $start_date,
-                office: $office,
-                extn: $extn},
+            data: {
+                id,name,position,salary,start_date,office,extn
+            },
             success:(res)=>{
-                console.log(res.data);
+                console.log(res);
             }
-        });
+        })
         counter++;
-        $("#modals-slide-in").modal("hide");
+    $("#modals-slide-in").modal("hide");
     });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-   /*  $('#addRow').on( 'click', function () {
-        usuario.row.add( [
-            counter +'.1',
-            counter +'.2',
-            counter +'.3',
-            counter +'.4',
-            counter +'.5'
-        ] ).draw( false );
- 
-        counter++;
-    } );
-    // Automatically add a first row of data
-    $('#addRow').click(); */
 });
