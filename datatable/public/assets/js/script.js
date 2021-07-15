@@ -1,5 +1,5 @@
 $(document).ready(function() {
-    var table = $('#userTable').DataTable( {
+    var table = $('.userTable').DataTable( {
         columnDefs:[{
             targets:-1,
             data:null,
@@ -91,6 +91,7 @@ $(document).ready(function() {
         fecha = $("#start_date").val(fecha);
         salario = $("#salary").val(salario);
         opcion = 2; // editar
+        
         $(".modal-header, .modal-content").css("background-color","rgb(100, 100, 200)");
         $(".modal-header").css("color","#0f0");
         $("#title").text("Editar Usuario");
@@ -98,7 +99,9 @@ $(document).ready(function() {
         $("#modals-slide-in").modal("show");
         $("#cancel").modal("hide")
         $("#form").submit(function(e){
-            table.row(fila).data({opcion,nombre,posicion,consultorio,extención,fecha,salario}).draw();
+            
+            table.row(fila).remove().draw();
+            table.row(fila).data({nombre,posicion,consultorio,extención,fecha,salario}).draw();
         });
     });
 
